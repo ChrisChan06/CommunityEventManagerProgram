@@ -1,0 +1,37 @@
+import javax.swing.JOptionPane;
+
+/**
+ * Represents a volunteer in community events, inheriting from Participant.
+ */
+public class Volunteer extends Participant {
+
+/**
+ * Constructs a new Volunteer with the given information.
+ *
+ * @param name                The name of the volunteer.
+ * @param contactInformation The contact information of the volunteer.
+ * @param specificRequirements The specific requirements of the volunteer.
+ */
+    public Volunteer(String name, String contactInformation, String specificRequirements) {
+        super(name, contactInformation, specificRequirements);
+    }
+
+/**
+ * Displays detailed information about the volunteer using a dialog.
+ */
+    public void displayVolunteerDetails() {
+        JOptionPane.showMessageDialog(null, "Volunteer Details:\nName: " + getName() +
+                "\nContact Information: " + getContactInformation() +
+                "\nSpecific Requirements: " + getSpecificRequirements());
+    }
+
+/**
+ * Assigns a task to the volunteer and displays a dialog message.
+ *
+ * @param task The task to be assigned to the volunteer.
+ */
+    public void assignTask(String task) {
+        JOptionPane.showMessageDialog(null, getName() + " assigned the task: " + task);
+    }
+}
+

@@ -1,0 +1,228 @@
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Manages community events, participants, and volunteers.
+ */
+public class CommunityEventManagementSystem {
+    private List<Event> events;
+    private List<Participant> participants;
+    private List<Volunteer> volunteers;
+
+/**
+ * Initializes the CommunityEventManagementSystem with empty lists.
+ */
+    public CommunityEventManagementSystem() {
+        events = new ArrayList<>();
+        participants = new ArrayList<>();
+        volunteers = new ArrayList<>();
+    }
+
+/**
+ * Creates a new event and adds it to the list.
+ */
+    public void createEvent() {
+        Event newEvent = new CommunityEvent();
+        newEvent.createEvent();
+        events.add(newEvent);
+    }
+
+/**
+ * Updates an existing event's details based on user input.
+ */
+    public void updateEvent() {
+        displayEvents();
+        int index = getIndexFromUserInput("Enter the index of the event to update:");
+        if (isValidIndex(index, events)) {
+            Event eventToUpdate = events.get(index);
+            eventToUpdate.updateEvent();
+            JOptionPane.showMessageDialog(null, "Event Updated: " + eventToUpdate.getName());
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid event index.");
+        }
+    }
+
+/**
+ * Cancels an existing event and removes it from the list.
+ */
+    public void cancelEvent() {
+        displayEvents();
+        int index = getIndexFromUserInput("Enter the index of the event to cancel:");
+        if (isValidIndex(index, events)) {
+            Event eventToCancel = events.remove(index);
+            JOptionPane.showMessageDialog(null, "Event Canceled: " + eventToCancel.getName());
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid event index.");
+        }
+    }
+
+/**
+ * Registers a new participant with specified details.
+ */
+    public void registerParticipant() {
+        String name = JOptionPane.showInputDialog("Enter participant name:");
+        String contactInfo = null;
+
+        
+        // Validate and ensure the contact information is a string of 11 digits
+        while (true) {
+            try {
+                contactInfo = JOptionPane.showInputDialog("Enter participant contact information (11 digits only):");
+                if (contactInfo == null) {
+                    // User clicked cancel, exit the registration
+                    return;
+                }
+
+                // Check if the input is exactly 11 digits
+                if (contactInfo.length() == 11 && contactInfo.matches("\\d+")) {
+                    break; // Valid input, exit the loop
+                } else {
+                    JOptionPane.showMessageDialog(null, "Contact information must be exactly 11 digits.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid number.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
+        String requirements = JOptionPane.showInputDialog("Enter participant specific requirements:");
+        Participant participant = new Participant(name, contactInfo, requirements);
+        participants.add(participant);
+        JOptionPane.showMessageDialog(null, "Participant Registered: " + participant.getName());
+    }
+
+
+/**
+ * Unregisters a participant based on user input.
+ */
+    public void unregisterParticipant() {
+        displayParticipants();
+        int index = getIndexFromUserInput("Enter the index of the participant to unregister:");
+        if (isValidIndex(index, participants)) {
+            Participant participantToUnregister = participants.remove(index);
+            JOptionPane.showMessageDialog(null, "Participant Unregistered: " + participantToUnregister.getName());
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid participant index.");
+        }
+    }
+
+/**
+ * Assigns a volunteer to a specific event based on user input.
+ */
+    public void assignVolunteer() {
+        displayEvents();
+        int eventIndex = getIndexFromUserInput("Enter the index of the event to assign a volunteer:");
+        if (isValidIndex(eventIndex, events)) {
+            Event event = events.get(eventIndex);
+            String volunteerName = JOptionPane.showInputDialog("Enter the volunteer's name:");
+            Volunteer volunteer = new Volunteer(volunteerName, "", "");
+            event.assignVolunteer(volunteer);
+            JOptionPane.showMessageDialog(null, "Volunteer Assigned to Event: " + event.getName());
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid event index.");
+        }
+    }
+
+/**
+ * Unassigns a volunteer from a specific event based on user input.
+ */
+    public void unassignVolunteer() {
+        displayEvents();
+        int eventIndex = getIndexFromUserInput("Enter the index of the event to unassign a volunteer:");
+        if (isValidIndex(eventIndex, events)) {
+            Event event = events.get(eventIndex);
+            event.displayVolunteers();
+            int volunteerIndex = getIndexFromUserInput("Enter the index of the volunteer to unassign:");
+            if (isValidIndex(volunteerIndex, event.getVolunteers())) {
+                event.unassignVolunteer(volunteerIndex);
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid volunteer index.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid event index.");
+        }
+    }
+
+/**
+ * Displays the dashboard showing lists of events, participants, and volunteers.
+ */
+    public void viewDashboard() {
+        displayEventsDashboard();
+        displayParticipantsDashboard();
+        displayVolunteersDashboard();
+    }
+
+    private void displayEventsDashboard() {
+        for (Event event : events) {
+            event.displayEventDetails();
+        }
+    }
+
+    private void displayParticipantsDashboard() {
+        JOptionPane.showMessageDialog(null, getParticipantsList(), "Participants Dashboard", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void displayVolunteersDashboard() {
+        JOptionPane.showMessageDialog(null, getVolunteersList(), "Volunteers Dashboard", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    // Private helper methods
+    private int getIndexFromUserInput(String message) {
+        return Integer.parseInt(JOptionPane.showInputDialog(message));
+    }
+
+    private String getEventsList() {
+        StringBuilder sb = new StringBuilder("Upcoming Events:\n");
+        for (Event event : events) {
+            sb.append(event.getName()).append("\n");
+        }
+        return sb.toString();
+    }
+
+    private String getParticipantsList() {
+        StringBuilder sb = new StringBuilder("Participants:\n");
+        for (Participant participant : participants) {
+            sb.append(participant.getName()).append("\n");
+        }
+        return sb.toString();
+    }
+
+    private String getVolunteersList() {
+        StringBuilder sb = new StringBuilder("Volunteers:\n");
+
+        for (Event event : events) {
+            List<Volunteer> eventVolunteers = event.getVolunteers();
+
+            for (Volunteer volunteer : eventVolunteers) {
+                sb.append(volunteer.getName())
+                        .append(" (for event: ")
+                        .append(event.getName())
+                        .append(")\n");
+            }
+        }
+
+        return sb.toString();
+    }
+
+    private void displayEvents() {
+        // Display a list of events
+        StringBuilder eventsList = new StringBuilder("Events:\n");
+        for (int i = 0; i < events.size(); i++) {
+            eventsList.append(i).append(". ").append(events.get(i).getName()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, eventsList.toString());
+    }
+
+    private void displayParticipants() {
+        // Display a list of participants
+        StringBuilder participantsList = new StringBuilder("Participants:\n");
+        for (int i = 0; i < participants.size(); i++) {
+            participantsList.append(i).append(". ").append(participants.get(i).getName()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, participantsList.toString());
+    }
+
+    private boolean isValidIndex(int index, List<?> list) {
+        return index >= 0 && index < list.size();
+    }
+}

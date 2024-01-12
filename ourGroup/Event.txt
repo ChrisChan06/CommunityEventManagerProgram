@@ -1,0 +1,163 @@
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+/**
+ * Abstract class representing an event with basic information and volunteer management.
+ */
+abstract class Event implements EventManagement {
+    protected String name;
+    protected String date;
+    protected String location;
+    protected String description;
+    protected List<Volunteer> volunteers;
+
+/**
+ * Default constructor initializing event attributes and the list of volunteers.
+ */
+    public Event() {
+        this.name = "";
+        this.date = "";
+        this.location = "";
+        this.description = "";
+        this.volunteers = new ArrayList<>();
+    }
+
+/**
+ * {@inheritDoc}
+ * Prompts the user to input event details and displays a confirmation message.
+ */
+    @Override
+    public void createEvent() {
+        name = JOptionPane.showInputDialog("Enter event name:");
+        date = JOptionPane.showInputDialog("Enter event date:");
+        location = JOptionPane.showInputDialog("Enter event location:");
+        description = JOptionPane.showInputDialog("Enter event description:");
+        JOptionPane.showMessageDialog(null, "Event Created: " + name);
+    }
+
+    @Override
+    public void displayEventDetails() {
+        StringBuilder eventDetails = new StringBuilder("Event Details:\n");
+        eventDetails.append("Name: ").append(name).append("\n");
+        eventDetails.append("Date: ").append(date).append("\n");
+        eventDetails.append("Location: ").append(location).append("\n");
+        eventDetails.append("Description: ").append(description).append("\n");
+
+        // Display volunteers if there are any
+        if (!volunteers.isEmpty()) {
+            eventDetails.append("\nVolunteers:\n");
+            for (Volunteer volunteer : volunteers) {
+                eventDetails.append("  - ").append(volunteer.getName()).append("\n");
+        }
+    }
+
+    JOptionPane.showMessageDialog(null, eventDetails.toString(), "Event Details", JOptionPane.INFORMATION_MESSAGE);
+}
+
+/**
+ * Updates the event's date, location, and description based on user input.
+ * Displays a confirmation message after updating.
+ */
+    public void updateEvent() {
+        date = JOptionPane.showInputDialog("Enter updated event date:");
+        location = JOptionPane.showInputDialog("Enter updated event location:");
+        description = JOptionPane.showInputDialog("Enter updated event description:");
+        JOptionPane.showMessageDialog(null, "Event Updated: " + name);
+    }
+
+/**
+ * Unassigns a volunteer from the event based on the provided index.
+ * Displays a confirmation message with the details of the unassigned volunteer.
+ *
+ * @param volunteerIndex The index of the volunteer to unassign.
+ */
+    public void unassignVolunteer(int volunteerIndex) {
+        if (isValidVolunteerIndex(volunteerIndex)) {
+            Volunteer volunteerToUnassign = volunteers.remove(volunteerIndex);
+            JOptionPane.showMessageDialog(null, "Volunteer Unassigned from Event: " + name
+                    + "\nVolunteer: " + volunteerToUnassign.getName());
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid volunteer index.");
+        }
+    }
+
+/**
+ * Displays the list of volunteers associated with the event.
+ */
+    public void displayVolunteers() {
+        StringBuilder volunteersList = new StringBuilder("Volunteers:\n");
+        for (int i = 0; i < volunteers.size(); i++) {
+            volunteersList.append(i).append(". ").append(volunteers.get(i).getName()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, volunteersList.toString());
+    }
+
+/**
+ * Gets the name of the event.
+ *
+ * @return The name of the event.
+ */
+    public String getName() {
+        return name;
+    }
+
+/**
+ * Gets the date of the event.
+ *
+ * @return The date of the event.
+ */
+    public String getDate() {
+        return date;
+    }
+
+/**
+ * Gets the location of the event.
+ *
+ * @return The location of the event.
+ */
+    public String getLocation() {
+        return location;
+    }
+
+/**
+ * Gets the description of the event.
+ *
+ * @return The description of the event.
+ */
+    public String getDescription() {
+        return description;
+    }
+
+/**
+ * Gets a copy of the list of volunteers associated with the event.
+ *
+ * @return A list of volunteers.
+ */
+    public List<Volunteer> getVolunteers() {
+        return new ArrayList<>(volunteers);
+    }
+
+/**
+ * Assigns a volunteer to the event and displays a confirmation message.
+ *
+ * @param volunteer The volunteer to be assigned.
+ */
+    public void assignVolunteer(Volunteer volunteer) {
+        volunteers.add(volunteer);
+        JOptionPane.showMessageDialog(null, "Volunteer Assigned to Event: " + name);
+    }
+
+// Private helper method
+
+/**
+ * Checks if the provided volunteer index is valid.
+ *
+ * @param volunteerIndex The index to be checked.
+ * @return True if the index is valid, false otherwise.
+ */
+    private boolean isValidVolunteerIndex(int volunteerIndex) {
+        return volunteerIndex >= 0 && volunteerIndex < volunteers.size();
+    }
+}

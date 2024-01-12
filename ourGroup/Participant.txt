@@ -1,0 +1,69 @@
+import javax.swing.JOptionPane;
+
+/**
+ * Represents a participant in community events with relevant details.
+ */
+public class Participant {
+    private String name;
+    private String contactInformation;
+    private String specificRequirements;
+
+/**
+ * Constructs a new Participant with the given information.
+ *
+ * @param name                The name of the participant.
+ * @param contactInformation The contact information of the participant.
+ * @param specificRequirements The specific requirements of the participant.
+ */
+    public Participant(String name, String contactInformation, String specificRequirements) {
+        this.name = name;
+        this.contactInformation = contactInformation;
+        this.specificRequirements = specificRequirements;
+    }
+
+/**
+ * Retrieves the name of the participant.
+ *
+ * @return The name of the participant.
+ */
+    public String getName() {
+        return name;
+    }
+
+/**
+ * Retrieves the contact information of the participant.
+ *
+ * @return The contact information of the participant.
+ */
+    public String getContactInformation() {
+        return contactInformation;
+    }
+
+/**
+ * Retrieves the specific requirements of the participant.
+ *
+ * @return The specific requirements of the participant.
+ */
+    public String getSpecificRequirements() {
+        return specificRequirements;
+    }
+
+/**
+ * Displays detailed information about the participant using a dialog.
+ */
+    public void displayParticipantDetails() {
+        JOptionPane.showMessageDialog(null, "Participant Details:\nName: " + name +
+                "\nContact Information: " + contactInformation +
+                "\nSpecific Requirements: " + specificRequirements);
+    }
+
+/**
+ * Updates the contact information of the participant.
+ *
+ * @param newContactInfo The new contact information to be set.
+ */
+    public void updateContactInformation(String newContactInfo) {
+        this.contactInformation = newContactInfo;
+        JOptionPane.showMessageDialog(null, "Contact Information Updated for " + name);
+    }
+}

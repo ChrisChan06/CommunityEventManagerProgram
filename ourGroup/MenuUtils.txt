@@ -1,0 +1,32 @@
+import javax.swing.JOptionPane;
+
+/**
+ * Utility class for managing user interactions through menu options.
+ */
+public class MenuUtils {
+
+/**
+ * Retrieves and returns the user-selected option from the menu.
+ *
+ * @return The selected option or -1 if input is not a valid integer.
+ */
+    public static int getOption() {
+        try {
+            return Integer.parseInt(JOptionPane.showInputDialog(getMenu()));
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+/**
+ * Generates and returns a formatted menu string with available options.
+ *
+ * @return The formatted menu string.
+ */
+    private static String getMenu() {
+        return "Select an option:\n1. Create Event\n2. Update Event\n3. Cancel Event\n" +
+                "4. Register Participant\n5. Unregister Participant\n" +
+                "6. Assign Volunteer\n7. Unassign Volunteer\n8. View Dashboard\n" +
+                "9. Exit";
+    }
+}

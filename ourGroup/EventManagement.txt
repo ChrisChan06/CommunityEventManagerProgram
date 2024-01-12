@@ -1,0 +1,11 @@
+/**
+ * An interface for managing events with methods to create and display event details.
+ */
+public interface EventManagement {
+
+    //Creates a new event, capturing necessary details from user input.
+    void createEvent();
+
+    //Displays detailed information about the event.
+    void displayEventDetails();
+}

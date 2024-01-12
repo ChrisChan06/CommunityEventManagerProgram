@@ -1,0 +1,143 @@
+import javax.swing.JOptionPane;
+
+/**
+ * The main class for managing community events and interactions.
+ */
+public class CommunityEventManager {
+    private CommunityEventManagementSystem system;
+
+    /**
+     * Constructor for CommunityEventManager, initializing the underlying system.
+     */
+    public CommunityEventManager() {
+        this.system = new CommunityEventManagementSystem();
+    }
+
+    // Event management methods
+
+    /**
+     * Initiates the process of creating a new event.
+     */
+    public void createEvent() {
+        system.createEvent();
+    }
+
+    /**
+     * Initiates the process of updating an existing event.
+     */
+    public void updateEvent() {
+        system.updateEvent();
+    }
+
+    /**
+     * Initiates the process of canceling an existing event.
+     */
+    public void cancelEvent() {
+        system.cancelEvent();
+    }
+
+    /**
+     * Initiates the process of registering a participant for an event.
+     */
+    public void registerParticipant() {
+        system.registerParticipant();
+    }
+
+    /**
+     * Initiates the process of unregistering a participant from an event.
+     */
+    public void unregisterParticipant() {
+        system.unregisterParticipant();
+    }
+
+    /**
+     * Initiates the process of assigning a volunteer to an event.
+     */
+    public void assignVolunteer() {
+        system.assignVolunteer();
+    }
+
+    /**
+     * Initiates the process of unassigning a volunteer from an event.
+     */
+    public void unassignVolunteer() {
+        system.unassignVolunteer();
+    }
+
+    /**
+     * Displays the dashboard, showing details about events, participants, and volunteers.
+     */
+    public void viewDashboard() {
+        system.viewDashboard();
+    }
+
+    /**
+     * Exits the program after displaying an exit message.
+     */
+    public void exit() {
+        JOptionPane.showMessageDialog(null, "Exiting program.");
+        System.exit(0);
+    }
+
+    /**
+     * The main method to run the Community Event Manager application.
+     */
+    public static void main(String[] args) {
+        CommunityEventManager system = new CommunityEventManager();
+
+        int option;
+        do {
+            option = MenuUtils.getOption();
+
+            if (option != -1) {
+                processUserOption(system, option);
+
+                int confirm = JOptionPane.showConfirmDialog(null, "Continue?");
+                if (confirm != JOptionPane.YES_OPTION) {
+                    option = -1; // Go back to the main menu if the user clicks No
+                }
+            }
+
+        } while (option != 9);
+    }
+
+    /**
+     * Processes the user's chosen option and performs the corresponding action.
+     *
+     * @param system The CommunityEventManager instance.
+     * @param option The user's chosen option.
+     */
+    private static void processUserOption(CommunityEventManager system, int option) {
+        switch (option) {
+            case 1:
+                system.createEvent();
+                break;
+            case 2:
+                system.updateEvent();
+                break;
+            case 3:
+                system.cancelEvent();
+                break;
+            case 4:
+                system.registerParticipant();
+                break;
+            case 5:
+                system.unregisterParticipant();
+                break;
+            case 6:
+                system.assignVolunteer();
+                break;
+            case 7:
+                system.unassignVolunteer();
+                break;
+            case 8:
+                system.viewDashboard();
+                break;
+            case 9:
+                system.exit();
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Invalid option.");
+        }
+    }
+}

@@ -1,0 +1,95 @@
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Represents a community event extending the base Event class.
+ */
+public class CommunityEvent extends Event {
+    private List<Participant> participants;
+    private List<Volunteer> volunteers;
+    
+
+/**
+ * Initializes a CommunityEvent with an empty list of volunteers.
+ */
+    public CommunityEvent() {
+        super();
+        participants = new ArrayList<>();
+        volunteers = new ArrayList<>();
+    }
+
+/**
+ * Overrides the createEvent method to include additional logic specific to CommunityEvent.
+ */
+    @Override
+    public void createEvent() {
+        super.createEvent();
+        // Additional logic specific to CommunityEvent creation if needed
+    }
+
+/**
+ * Overrides the updateEvent method to include additional logic specific to CommunityEvent.
+ */
+    @Override
+    public void updateEvent() {
+        super.updateEvent();
+        // Additional logic specific to CommunityEvent update if needed
+    }
+
+/**
+ * Displays the list of volunteers associated with this community event.
+ */
+    public void displayVolunteers() {
+        StringBuilder volunteersList = new StringBuilder("Volunteers:\n");
+        for (int i = 0; i < volunteers.size(); i++) {
+            volunteersList.append(i).append(". ").append(volunteers.get(i).getName()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, volunteersList.toString());
+    }
+
+/**
+ * Assigns a volunteer to the community event.
+ *
+ * @param volunteer The volunteer to be assigned.
+ */
+    public void assignVolunteer(Volunteer volunteer) {
+        volunteers.add(volunteer);
+    }
+
+/**
+ * Unassigns a volunteer from the community event based on the provided index.
+ *
+ * @param volunteerIndex The index of the volunteer to unassign.
+ */
+    public void unassignVolunteer(int volunteerIndex) {
+        if (isValidVolunteerIndex(volunteerIndex)) {
+            Volunteer volunteerToUnassign = volunteers.remove(volunteerIndex);
+            JOptionPane.showMessageDialog(null, "Volunteer Unassigned from Event: " + getName()
+                    + "\nVolunteer: " + volunteerToUnassign.getName());
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid volunteer index.");
+        }
+    }
+
+/**
+ * Retrieves a copy of the list of volunteers associated with this community event.
+ *
+ * @return A list of volunteers.
+ */
+    public List<Volunteer> getVolunteers() {
+        return new ArrayList<>(volunteers);
+    }
+
+    // Private helper method
+
+/**
+ * Checks if the provided volunteer index is valid.
+ *
+ * @param volunteerIndex The index to be checked.
+ * @return True if the index is valid, false otherwise.
+ */
+    private boolean isValidVolunteerIndex(int volunteerIndex) {
+        return volunteerIndex >= 0 && volunteerIndex < volunteers.size();
+    }
+}
